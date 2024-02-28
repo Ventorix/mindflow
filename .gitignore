@@ -14,7 +14,7 @@ package-lock.json
 
 # production
 /build
-dev.db
+prisma/dev.db
 
 # misc
 .DS_Store
