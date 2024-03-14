@@ -31,7 +31,7 @@ model List {
   order         Int
 
   boardId       String
-  Board         Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  board         Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
 
   cards         Card[]
 
