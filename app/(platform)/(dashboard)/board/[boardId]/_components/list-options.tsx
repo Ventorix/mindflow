@@ -10,6 +10,7 @@ import { List } from '@prisma/client';
 import { FormSubmit } from '@/components/form/form-submit';
 import { Separator } from '@/components/ui/separator';
 import { ElementRef, useRef } from 'react';
+import { copyList } from '@/actions/copy-list';
 
 interface ListOptionsProps {
 	data: List;
@@ -19,9 +20,19 @@ interface ListOptionsProps {
 export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 	const closeRef = useRef<ElementRef<'button'>>(null);
 
-	const { execute: executeDelete, isLoading } = useAction(deleteList, {
+	const { execute: executeDelete } = useAction(deleteList, {
 		onSuccess(data) {
 			toast.success(`List "${data.title}" deleted`);
+			closeRef.current?.click();
+		},
+		onError(error) {
+			toast.error(error);
+		},
+	});
+
+	const { execute: executeCopy } = useAction(copyList, {
+		onSuccess(data) {
+			toast.success(`List "${data.title.split(' - Copy')[0]}" copied`);
 			closeRef.current?.click();
 		},
 		onError(error) {
@@ -34,6 +45,13 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 		const boardId = formData.get('boardId') as string;
 
 		executeDelete({ id, boardId });
+	};
+
+	const onCopy = (formData: FormData) => {
+		const id = formData.get('id') as string;
+		const boardId = formData.get('boardId') as string;
+
+		executeCopy({ id, boardId });
 	};
 
 	return (
@@ -52,7 +70,7 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 						<X className='h-4 w-4' />
 					</Button>
 				</PopoverClose>
-				<form action={onAddCard} className=''>
+				<form action={onAddCard}>
 					<input hidden name='id' id='id' value={data.id} />
 					<input hidden name='boardId' id='boardId' value={data.boardId} />
 					<FormSubmit
@@ -62,7 +80,7 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 					</FormSubmit>
 				</form>
 				<Separator />
-				<form className=''>
+				<form action={onCopy}>
 					<input hidden name='id' id='id' value={data.id} />
 					<input hidden name='boardId' id='boardId' value={data.boardId} />
 					<FormSubmit
@@ -72,7 +90,7 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 					</FormSubmit>
 				</form>
 				<Separator />
-				<form action={onDelete} className=''>
+				<form action={onDelete}>
 					<input hidden name='id' id='id' value={data.id} />
 					<input hidden name='boardId' id='boardId' value={data.boardId} />
 					<FormSubmit
