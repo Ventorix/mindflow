@@ -26,12 +26,12 @@ model Board {
 }
 
 model List {
-  id String     @id @default(uuid())
+  id            String   @id @default(uuid())
   title         String
   order         Int
 
   boardId       String
-  board         Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  board         Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
 
   cards         Card[]
 
@@ -42,13 +42,13 @@ model List {
 }
 
 model Card {
-  id String     @id @default(uuid())
+  id            String   @id @default(uuid())
   title         String
   order         Int
-  description   String? @db.Text
+  description   String?  @db.Text
 
   listId        String
-  list        List @relation(fields: [listId], references: [id], onDelete: Cascade)
+  list          List     @relation(fields: [listId], references: [id], onDelete: Cascade)
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
