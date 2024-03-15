@@ -95,7 +95,7 @@ export const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
 				<div
 					onClick={enableEditing}
 					className='w-full text-sm px-2.5 py-1 h-7 font-medium border-transparent'>
-					{title}
+					{<p className='font-semibold'>{title}</p>}
 				</div>
 			)}
 			<ListOptions onAddCard={onAddCard} data={data} />

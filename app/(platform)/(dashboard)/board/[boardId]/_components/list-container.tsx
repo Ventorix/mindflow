@@ -10,6 +10,7 @@ import { ListForm } from './list-form';
 import { ListItem } from './list-item';
 import { updateListOrder } from '@/actions/update-list-order';
 import { useAction } from '@/hooks/use-action';
+import { updateCardsOrder } from '@/actions/update-card-order';
 
 interface ListContainerProps {
 	data: ListWithCards[];
@@ -30,6 +31,15 @@ export const ListContainer = ({ data, boardId }: ListContainerProps) => {
 	const { execute: executeUpdateListOrder } = useAction(updateListOrder, {
 		onSuccess(data) {
 			toast.success(`List reordered `);
+		},
+		onError(error) {
+			toast.error(error);
+		},
+	});
+
+	const { execute: executeUpdateCardOrder } = useAction(updateCardsOrder, {
+		onSuccess(data) {
+			toast.success(`Card reordered `);
 		},
 		onError(error) {
 			toast.error(error);
@@ -95,7 +105,7 @@ export const ListContainer = ({ data, boardId }: ListContainerProps) => {
 				sourceList.cards = reorderedCards;
 
 				setOrderedData(newOrderedData);
-				//TODO: Trigger Server Action
+				executeUpdateCardOrder({ boardId: boardId, items: reorderedCards });
 
 				// if user moves the card to another list
 			} else {
@@ -118,7 +128,7 @@ export const ListContainer = ({ data, boardId }: ListContainerProps) => {
 				});
 
 				setOrderedData(newOrderedData);
-				//TODO: Trigger Server Action
+				executeUpdateCardOrder({ boardId: boardId, items: destList.cards });
 			}
 		}
 	};
