@@ -9,6 +9,7 @@ import { InputType, ReturnType } from './types';
 import { createSafeAction } from '@/lib/create-safe-action';
 import { createAuditLog } from '@/lib/create-audit-log';
 import { CreateBoard } from './schema';
+import { hasAvailableCount, incrementAvailableCount } from '@/lib/org-limit';
 
 const handler = async (data: InputType): Promise<ReturnType> => {
 	const { userId, orgId } = auth();
@@ -19,6 +20,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 		};
 	}
 
+	const canCreate = await hasAvailableCount();
+
+	if (!canCreate) {
+		return {
+			error:
+				'You have reached your limit of free boards. Please upgrade your status to create more.',
+		};
+	}
 	const { title, image } = data;
 
 	const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] = image.split('|');
@@ -51,6 +60,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 				imageUserName,
 			},
 		});
+
+		await incrementAvailableCount();
 
 		await createAuditLog({
 			entityTitle: board.title,

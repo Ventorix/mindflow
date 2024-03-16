@@ -10,14 +10,14 @@ datasource db {
 }
 
 model Board {
-  id            String @id @default(uuid())
+  id            String   @id @default(uuid())
   orgId         String 
   title         String
   imageId       String
-  imageThumbUrl String @db.Text
-  imageFullUrl  String @db.Text
-  imageUserName String @db.Text
-  imageLinkHTML String @db.Text
+  imageThumbUrl String   @db.Text
+  imageFullUrl  String   @db.Text
+  imageUserName String   @db.Text
+  imageLinkHTML String   @db.Text
 
   lists         List[]
 
@@ -76,6 +76,15 @@ model AuditLog {
   userId        String
   userImage     String   @db.Text
   userName      String   @db.Text
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model OrgLimit {
+  id            String   @id @default(uuid())
+  orgId         String   @unique
+  count         Int      @default(0)
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

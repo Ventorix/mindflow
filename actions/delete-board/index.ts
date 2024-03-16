@@ -11,6 +11,7 @@ import { createAuditLog } from '@/lib/create-audit-log';
 
 import { DeleteBoard } from './schema';
 import { InputType, ReturnType } from './types';
+import { decreaseAvailableCount } from '@/lib/org-limit';
 
 const handler = async (data: InputType): Promise<ReturnType> => {
 	const { userId, orgId } = auth();
@@ -31,6 +32,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 				orgId,
 			},
 		});
+
+		await decreaseAvailableCount();
 
 		await createAuditLog({
 			entityTitle: board.title,
