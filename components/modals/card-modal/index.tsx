@@ -9,6 +9,7 @@ import { useCardModal } from '@/hooks/use-card-modal';
 
 import { Header } from './header';
 import { Description } from './description';
+import { Actions } from './actions';
 
 export const CardModal = () => {
 	const id = useCardModal((state) => state.id);
@@ -30,6 +31,7 @@ export const CardModal = () => {
 							{!cardData ? <Description.Skeleton /> : <Description data={cardData} />}
 						</div>
 					</div>
+					{!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
 				</div>
 			</DialogContent>
 		</Dialog>

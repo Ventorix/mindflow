@@ -75,7 +75,7 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 					<input hidden name='boardId' id='boardId' value={data.boardId} />
 					<FormSubmit
 						variant='ghost'
-						className='rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm'>
+						className='rounded-none w-full h-auto p-2 px-5 justify-start font-medium text-sm hover:bg-green-300 hover:rounded-md'>
 						Add card...
 					</FormSubmit>
 				</form>
@@ -85,7 +85,7 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 					<input hidden name='boardId' id='boardId' value={data.boardId} />
 					<FormSubmit
 						variant='ghost'
-						className='rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm'>
+						className='rounded-none w-full h-auto p-2 px-5 justify-start font-medium text-sm hover:bg-orange-200 hover:rounded-md'>
 						Copy list...
 					</FormSubmit>
 				</form>
@@ -95,7 +95,7 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 					<input hidden name='boardId' id='boardId' value={data.boardId} />
 					<FormSubmit
 						variant='ghost'
-						className='rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm'>
+						className='rounded-none w-full h-auto p-2 px-5 justify-start font-medium text-sm hover:bg-red-300 hover:rounded-md'>
 						Delete this list
 					</FormSubmit>
 				</form>
